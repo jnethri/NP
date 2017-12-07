@@ -1,0 +1,80 @@
+section#daily(ng-controller="CalendarCtrl as vm")
+	h1 My Path
+	p.intro This is a complete list of all the entries that you have made to date. They are sorted by when they were entered.
+	p
+		btn.btn.btn-primary(ng-click="vm.goToDaily()") Add A New Entry
+	h3.subtitle Daily List
+	p.intro(ng-show="vm.selectedItems.length == 0") Go to the daily page to calculate your totals for today or a previous day.
+	p.intro The green and red color codes do not represent healthy or unhealthy. They only show if you are under or over your daily goals or close. A certain color will often be good in one category and bad in another depending upon your goals. 
+	p Taken from the USDA National Library. 
+	p The Dietary Reference Intakes (DRIs) are developed and published by the Institute of Medicine (IOM). The DRIs represent the most current scientific knowledge on nutrient needs of healthy populations. (Please note that individual requirements may be higher or lower than the DRIs.)
+	table.calendar-key.pull-right
+		tr
+			td.cr40 < 50%
+			td.cr60 50-60%
+			td.cr80 60-70%
+			td.cr100 70-80%
+			td.cr120 80-90%
+			td.cr130 90-100%
+			td.cr150 100-110%
+			td.cr120 110-120%
+			td.cr100 120-130%
+			td.cr80 130-140%
+			td.cr60 140-150%
+			td.cr40 > 150%
+	table.database-items.calendar-days(ng-show="vm.days.length > 0")
+		tr
+			th Date
+			th Calories
+			th Fat
+			th Carbs
+			th Protein
+			th Sodium
+			th Fiber
+			th(colspan="2")
+		tr(ng-repeat="day in vm.days | orderBy:'date':true ")
+			td <strong>{{day.date | date:'MM/dd/yyyy'}}</strong>
+			td.cr150(ng-class="day.caloriesHex") {{day.calories | number:0}}
+			td.cr150(ng-class="day.fatHex") {{day.fat | number:2}}
+			td.cr150(ng-class="day.carbsHex") {{day.carbs | number:2}}
+			td.cr150(ng-class="day.proteinHex") {{day.protein | number:2}}
+			td.cr150(ng-class="day.sodiumHex") {{day.sodium | number:0}}
+			td.cr150(ng-class="day.fiberHex") {{day.fiber | number:2}}
+			td.edit-item(ng-click="vm.editDay(day)")
+				span.glyphicon.glyphicon-edit
+			td.delete-item(ng-click="vm.deleteDay(day._id)")
+				span.glyphicon.glyphicon-remove
+		tr.calendar-goals
+			td <strong>Your Daily Goals</strong>
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.calories | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.calories" type="number")
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.fat | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.fat" type="number")
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.carbs | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.carbs" type="number")
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.protein | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.protein" type="number")
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.sodium | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.sodium" type="number")
+			td 
+				span(ng-hide="vm.editingGoals") {{vm.goals.fiber | number:0}}
+				input.form-control(ng-show="vm.editingGoals" ng-model="vm.goals.fiber" type="number")
+			td.edit-item(colspan="2" ng-click="vm.editGoals()") 
+				span.glyphicon.glyphicon-edit(ng-hide="vm.editingGoals")
+				btn.btn.btn-primary(ng-show="vm.editingGoals" ng-click="vm.saveGoals(vm.goals)") SAVE
+		tr.calendar-average
+			td <strong>Your Daily Averages</strong>
+			td.cr150(ng-class="vm.totals.caloriesHex") {{vm.totals.avgCalories | number:0}}
+			td.cr150(ng-class="vm.totals.fatHex") {{vm.totals.avgFat | number:2}}
+			td.cr150(ng-class="vm.totals.carbsHex") {{vm.totals.avgCarbs | number:2}}
+			td.cr150(ng-class="vm.totals.proteinHex") {{vm.totals.avgProtein | number:2}}
+			td.cr150(ng-class="vm.totals.sodiumHex") {{vm.totals.avgSodium | number:0}}
+			td.cr150(ng-class="vm.totals.fiberHex") {{vm.totals.avgFiber | number:2}}
+				
+							
+					
